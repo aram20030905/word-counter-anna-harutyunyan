@@ -2,8 +2,23 @@ const mainContainer = document.getElementById("container");
 //create function to show the amount of letters words and sentences
 const showResult = () => {
     const inputText = document.querySelector(".input_text").value;
-    const letters = inputText.replace(/[^a-zA-Z]/g, "").length;
-    const words = inputText.split(/\s+/).filter((elem) => elem !== "").length;
+    const letters = inputText.replace(/[^a-zA-Z0-9+\-/*$%&@]/g, "").length;
+    // const words = inputText.split(/\s+|\.\s*/).filter((elem) => elem !== "").length;
+    let words = 0;
+    const wordArr = inputText.split(/\s+/);
+    wordArr.forEach((elem) => {
+        if (
+            elem.includes(".") ||
+            elem.includes("!") ||
+            elem.includes(":") ||
+            elem.includes("?")
+        ) {
+            const wordsSub = elem.split(/[.?!:]/).filter((item) => item !== "");
+            words += wordsSub.length;
+        } else {
+            words++;
+        }
+    });
     const sentences = inputText
         .split(/[?.!:]/)
         .filter((item) => item !== "").length;
